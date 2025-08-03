@@ -39,7 +39,7 @@ A full-stack music player application that rewards users with ad-free playback t
 ---
 
 ## 📁 Folder Structure
-
+```
 project-root/
 ├── ListenMusicBackend/
 │ ├── controllers/
@@ -62,7 +62,7 @@ project-root/
 │
 ├── README.md
 └── .gitignore
-
+```
 ---
 
 
