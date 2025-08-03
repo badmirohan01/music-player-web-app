@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes slideFromBottom {
+  0% {
+    transform: translateY(100%);
+    opacity: 0; 
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1; 
+  }
+}
+
+.slide-from-bottom {
+  animation: slideFromBottom 1s ease-out forwards;
+}
+ 

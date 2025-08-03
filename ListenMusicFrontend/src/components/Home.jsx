@@ -1,0 +1,66 @@
+import React, { useEffect, useState } from "react";
+import NavBar from "./NavBar";
+import Sidebar from "./Sidebar";
+import FeaturedSong from "./Featuredsong";
+import TopArtists from "./TopArtists";
+import Genres from "./Genres";
+import TopCharts from "./TopCharts";
+import MusicPlayer from "./MusicPlayer";
+import Albums from "./Albums";
+import LoadingPage from "./LoadingPage";
+import AdModal from "./AdModal";
+import { useNavigate } from "react-router";
+
+import { useSelector } from "react-redux";
+
+const Home = () => {
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector((state) => state.sessionStatus.isLoggedIn);
+  const isLoading = useSelector((state) => state.loading.status);
+  const adFreeTime = useSelector((state) => state.profile.adFreeTime);
+  // console.log("adFreeTime:", adFreeTime);
+  // console.log("loading:", isLoading);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  useEffect(() => {
+    if (isLoggedIn === false) {
+      navigate("/signin", { replace: true });
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (adFreeTime === true) {
+      setShowModal(true);
+    }
+  }, [adFreeTime]);
+
+  return (
+    <div className="bg-gray-900">
+      {showModal && <AdModal onClose={handleCloseModal} />}
+      <NavBar />
+      <div className="flex overflow-y-scroll scrollbar-hide">
+        <Sidebar />
+        <div className="bg-gray-900 ml-[16vw] pl-[1vw] w-full mt-[4.5rem] overflow-y-scroll scrollbar-hide">
+          <FeaturedSong />
+          <div className="flex gap-2">
+            <div className="flex flex-col">
+              <Albums />
+              <div className="flex justify-between gap-2">
+                <Genres />
+                <TopCharts />
+              </div>
+              <TopArtists />
+            </div>
+            <MusicPlayer />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Home;
