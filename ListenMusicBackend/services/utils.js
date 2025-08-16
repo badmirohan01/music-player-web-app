@@ -10,23 +10,40 @@ const formatSessionTime = (milliseconds) => {
   const seconds = Math.floor(milliseconds / 1000);
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
-  
+
   return {
     milliseconds,
     seconds,
     minutes,
     hours,
-    formatted: `${hours}h ${minutes % 60}m ${seconds % 60}s`
+    formatted: `${hours}h ${minutes % 60}m ${seconds % 60}s`,
   };
-}
+};
+
+// Function to calculate time difference
+const getAdFreeTime = (lastLoginTime) => {
+  const currentIST = getISTTime();
+  const lastLoginIST = new Date(lastLoginTime); // assuming loginTime is stored in UTC
+
+  const timeDifferenceMs = currentIST.getTime() - lastLoginIST.getTime();
+
+  const THIRTY_MINUTES_MS = 30 * 60 * 1000;
+
+  if (timeDifferenceMs >= THIRTY_MINUTES_MS) {
+    return 30; // return 30 minutes if exceeded
+  }
+
+  return timeDifferenceMs; // return actual ms if less than 30 min
+};
 
 const getRandomNumber = () => {
-  const random = String(Math.floor(Math.random() * 4 + 1)).padStart(2, '0');
+  const random = String(Math.floor(Math.random() * 4) + 1).padStart(2, "0");
   return random;
 };
 
 module.exports = {
   getISTTime,
   formatSessionTime,
-  getRandomNumber
+  getRandomNumber,
+  getAdFreeTime,
 };

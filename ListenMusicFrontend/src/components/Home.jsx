@@ -22,25 +22,15 @@ const Home = () => {
   // console.log("adFreeTime:", adFreeTime);
   // console.log("loading:", isLoading);
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
   useEffect(() => {
     if (isLoggedIn === false) {
       navigate("/signin", { replace: true });
     }
   }, [isLoggedIn]);
 
-  useEffect(() => {
-    if (adFreeTime === true) {
-      setShowModal(true);
-    }
-  }, [adFreeTime]);
-
   return (
     <div className="bg-gray-900">
-      {showModal && <AdModal onClose={handleCloseModal} />}
+      <AdModal />
       <NavBar />
       <div className="flex overflow-y-scroll scrollbar-hide">
         <Sidebar />

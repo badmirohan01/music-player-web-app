@@ -4,6 +4,7 @@ const { OAuth2Client } = require("google-auth-library");
 const { setUser } = require("../services/auth");
 require("dotenv").config();
 const { authenticateToken } = require("../middlewares/auth");
+const { getISTTime } = require("../services/utils");
 const users = require("../models/user");
 
 const router = express.Router();
@@ -28,7 +29,7 @@ router.post("/auth/google", async (req, res) => {
     const payload = ticket.getPayload();
 
     // Extract user information
-
+    console.log(payload.sub);
     const googleUser = {
       googleId: payload.sub,
       email: payload.email,
@@ -40,12 +41,19 @@ router.post("/auth/google", async (req, res) => {
     console.log("Google user authenticated:", googleUser);
 
     // Here you can save user to database if needed
-    // const user = await User.findOrCreate({ googleId: googleUser.googleId, ...googleUser });
     const user = await users.findOne({ email: googleUser.email });
-    if (user) {
-      user.googleId = googleUser.googleId;
+    if (!user) {
+      // user = await users.create({
+      //   username: payload.name,
+      //   email: payload.email,
+      //   loginCount: 1,
+      //   loginTime: getISTTime(),
+      // });
+      // await user.save();
+      console.log("User not created, handle it again");
     } else {
-      throw new Error("User not found in database");
+      user.googleId = googleUser.googleId;
+      await user.save();
     }
     // Generate your own JWT token
     const accessToken = setUser(googleUser);
@@ -74,17 +82,5 @@ router.post("/auth/google", async (req, res) => {
     });
   }
 });
-
-// router.post("/auth/logout", authenticateToken, (req, res) => {
-//   // In a real app, you might want to blacklist the token
-//   // or remove it from a database if you're storing active sessions
-
-//   console.log("User logged out:", req.user.email);
-
-//   res.json({
-//     success: true,
-//     message: "Logged out successfully",
-//   });
-// });
 
 module.exports = router;

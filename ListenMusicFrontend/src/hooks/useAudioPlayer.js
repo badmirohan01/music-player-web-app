@@ -114,6 +114,17 @@ const useAudioPlayer = () => {
     updateAllListeners();
   };
 
+  // Pause track only if it's playing
+  const pauseTrack = () => {
+    if (!audioRef.current || !globalAudioState.currentTrackId) return;
+
+    if (globalAudioState.isPlaying) {
+      audioRef.current.pause();
+      globalAudioState.isPlaying = false;
+      updateAllListeners();
+    }
+  };
+
   // Seek to specific time
   const seekTo = (time) => {
     if (audioRef.current) {
@@ -127,6 +138,7 @@ const useAudioPlayer = () => {
     ...state,
     playTrack,
     togglePlayPause,
+    pauseTrack,
     seekTo,
     audioRef,
   };

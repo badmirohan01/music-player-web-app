@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, Bell, Settings } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { setNavbar } from "../redux/Navbar/NavBarSlice";
@@ -18,7 +18,11 @@ const NavBar = () => {
   const profilePicture = useSelector((state) => state.profile.profilePicture);
   const emailVerified = useSelector((state) => state.profile.emailVerified);
   const navigate = useNavigate();
-  const { togglePlayPause } = useAudioPlayer();
+  const timeDifferenceMs = useSelector(
+    (state) => state.profile.timeDifferenceMs
+  );
+  // console.log(timeDifferenceMs);
+  const { pauseTrack } = useAudioPlayer();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -29,6 +33,15 @@ const NavBar = () => {
     setAnchorEl(null);
   };
 
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      handleLogout();
+    }, timeDifferenceMs);
+
+    return () => clearTimeout(timer); // cleanup when component unmounts or timeDifferenceMs changes
+  }, [timeDifferenceMs]); // dependency array
+
   const handleLogout = async () => {
     try {
       googleLogout();
@@ -38,7 +51,7 @@ const NavBar = () => {
 
       await persistor.purge();
       await persistor.flush();
-      togglePlayPause();
+      pauseTrack();
       localStorage.removeItem("persist:root");
 
       dispatch(setSessionStatus());

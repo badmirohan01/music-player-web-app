@@ -13,18 +13,18 @@ import Signin from "./components/Signin";
 import Tracks from "./components/Tracks";
 
 function App() {
-  const timeDifference = useSelector((state) => state.profile.timeDifference);
-  const adFreeTime = useSelector((state) => state.profile.adFreeTime);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (typeof timeDifference !== "number" || timeDifference <= 0 && adFreeTime === false) return;
+  // const timeDifference = useSelector((state) => state.profile.timeDifference);
+  // const adFreeTime = useSelector((state) => state.profile.adFreeTime);
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   if (typeof timeDifference !== "number" || timeDifference <= 0 && adFreeTime === false) return;
 
-    const timeout = setTimeout(() => {
-      dispatch(updateAdFreeTime(false));
-    }, timeDifference);
+  //   const timeout = setTimeout(() => {
+  //     dispatch(updateAdFreeTime(false));
+  //   }, timeDifference);
 
-    return () => clearTimeout(timeout); 
-  }, [timeDifference]);
+  //   return () => clearTimeout(timeout); 
+  // }, [timeDifference]);
 
   return (
     <Routes>

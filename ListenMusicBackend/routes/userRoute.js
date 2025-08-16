@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { setUser } = require("../services/auth");
-const { getISTTime } = require("../services/utils");
+const { getISTTime, getAdFreeTime } = require("../services/utils");
 const users = require("../models/user");
 
 router.post("/signin", async (req, res) => {
@@ -15,19 +15,20 @@ router.post("/signin", async (req, res) => {
         username: username,
         email: email,
         loginCount: 1,
-        timeDifferenceMs: getISTTime() - user.loginTime,
         loginTime: getISTTime(),
       });
+      // console.log("User not created check the apiRoute");
       // console.log(user);
     } else {
       user.username = username;
       user.email = email;
       user.loginCount += 1;
-      user.timeDifferenceMs = getISTTime() - user.loginTime;
+      // user.timeDifferenceMs = getISTTime() - user.loginTime;
+      user.timeDifferenceMs = getAdFreeTime(user.loginTime);
       user.loginTime = getISTTime();
-      if (user.loginCount % 2 === 0) {
-        user.adFreeTime = true; 
-      }
+      user.loginCount % 2 === 0
+        ? (user.adFreeTime = true)
+        : (user.adFreeTime = false);
       await user.save();
     }
     // const token = await setUser(user);

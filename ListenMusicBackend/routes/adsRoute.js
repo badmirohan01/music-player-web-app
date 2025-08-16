@@ -9,7 +9,7 @@ router.get("/ads", (req, res) => {
     name: "#Advertisement",
     images: [
       {
-        url: `http://localhost:3000/images/ad01.jpeg`,
+        url: `http://localhost:3000/images/ad${id}.jpeg`,
       },
     ],
   };

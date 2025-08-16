@@ -110,10 +110,10 @@ const Signin = () => {
         <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
           <GoogleLogin
             auto_select
-            onSuccess={(response) => {
+            onSuccess={async (response) => {
               // dispatch(setLoading());
-              sendUserToBackend(response);
-              handleLoginSuccess(response);
+              await sendUserToBackend(response);
+              await handleLoginSuccess(response);
             }}
             onError={handleLoginError}
             onFailure={(error) => {

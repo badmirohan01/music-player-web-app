@@ -19,19 +19,20 @@ const userSchema = new mongoose.Schema(
     googleId: {
       type: String,
       unique: true,
+      sparse: true,
     },
-    loginTime:{
+    loginTime: {
       type: Date,
       default: Date.now,
     },
     timeDifferenceMs: {
       type: Number,
-      default: 0,
+      default: 30 * 60 * 1000,
     },
     adFreeTime: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   { timestamps: true }
 );
