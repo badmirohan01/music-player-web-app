@@ -172,10 +172,12 @@ const Tracks = () => {
             </div>
             <div className="text-gray-400">{getDuration(item.duration_ms)}</div>
             <button
+              disabled={adPlaying}
               className="ml-4 w-8 h-8 flex items-center justify-center cursor-pointer hover:bg-gray-500 rounded-2xl"
               onClick={() => {
+                console.log("clicked");
                 dispatch(setFetchId(item.id));
-                console.log(fetchId);
+                // console.log(fetchId);
                 adFreeTime ? handleTrackClick1() : handleTrackClick();
               }}
             >

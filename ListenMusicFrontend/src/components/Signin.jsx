@@ -52,7 +52,7 @@ const Signin = () => {
         // dispatch(setSessionStatus());
         dispatch(updateTimeDifferenceMs(data.user?.timeDifferenceMs));
         dispatch(updateAdFreeTime(data.user?.adFreeTime));
-        console.log("adFreeTime", adFreeTime);
+        // console.log("adFreeTime", adFreeTime);
         // console.log("timeDifferenceMs", data.user?.timeDifferenceMs);
         // console.log("responseData", data);
       }

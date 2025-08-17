@@ -7,20 +7,13 @@ import Genres from "./Genres";
 import TopCharts from "./TopCharts";
 import MusicPlayer from "./MusicPlayer";
 import Albums from "./Albums";
-import LoadingPage from "./LoadingPage";
 import AdModal from "./AdModal";
 import { useNavigate } from "react-router";
-
 import { useSelector } from "react-redux";
 
 const Home = () => {
-  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.sessionStatus.isLoggedIn);
-  const isLoading = useSelector((state) => state.loading.status);
-  const adFreeTime = useSelector((state) => state.profile.adFreeTime);
-  // console.log("adFreeTime:", adFreeTime);
-  // console.log("loading:", isLoading);
 
   useEffect(() => {
     if (isLoggedIn === false) {

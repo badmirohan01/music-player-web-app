@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Search, Bell, Settings } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Search, Bell } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { setNavbar } from "../redux/Navbar/NavBarSlice";
 import { Button } from "@mui/material";
@@ -12,6 +12,7 @@ import { persistor } from "../redux/store.js";
 import useAudioPlayer from "../hooks/useAudioPlayer.js";
 
 const NavBar = () => {
+  const isFirstRender = useRef(true);
   const navbarItem = useSelector((state) => state.Navbar.NavbarItem);
   const dispatch = useDispatch();
   const userName = useSelector((state) => state.profile.name);
@@ -33,8 +34,12 @@ const NavBar = () => {
     setAnchorEl(null);
   };
 
-
   useEffect(() => {
+    if (isFirstRender.current) {
+      // Skip the first execution
+      isFirstRender.current = false;
+      return;
+    }
     const timer = setTimeout(() => {
       handleLogout();
     }, timeDifferenceMs);
@@ -64,7 +69,7 @@ const NavBar = () => {
         },
       }).catch((err) => console.log("Logout API call failed:", err));
 
-      console.log("User logged out successfully");
+      // console.log("User logged out successfully");
     } catch (error) {
       console.error("Logout error:", error);
     }
